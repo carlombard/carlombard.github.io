@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ page.title | default: site.title }}</title>
+
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  </head>
+
+  <body>
+    <nav class="topnav">
+      <div class="nav-inner">
+        <a class="brand" href="#top" aria-label="Home">
+          <span class="brand-first">Carlo</span>
+          <span class="brand-last">Lombardo</span><span class="brand-dot">.</span>
+        </a>
+        <div class="nav-links">
+          <a class="nav-link" href="#working-papers">Working papers</a>
+          <a class="nav-link" href="#publications">Publications</a>
+          <a class="nav-link" href="#work-in-progress">Work in progress</a>
+          <a class="nav-link" href="#predoc">Pre-doctoral</a>
+        </div>
+      </div>
+    </nav>
+
+    <main id="top" class="container">
+      {{ content }}
+    </main>  
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const links = Array.from(document.querySelectorAll(".nav-link[href^='#']"));
+      const targets = links
+        .map(a => document.querySelector(a.getAttribute("href")))
+        .filter(Boolean);
+
+      const setActive = (id) => {
+        links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + id));
+      };
+
+      const obs = new IntersectionObserver((entries) => {
+        // pick the most visible intersecting section
+        const visible = entries.filter(e => e.isIntersecting);
+        if (!visible.length) return;
+        visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        setActive(visible[0].target.id);
+      }, { rootMargin: "-40% 0px -55% 0px", threshold: [0.1, 0.2, 0.35, 0.5, 0.65] });
+
+      targets.forEach(t => obs.observe(t));
+
+      // make clicking feel immediate
+      links.forEach(a => a.addEventListener("click", () => {
+        const id = a.getAttribute("href").slice(1);
+        setActive(id);
+      }));
+    });
+    </script>
+    
+  </body>
+</html>

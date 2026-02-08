@@ -1,0 +1,258 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+/* Cornell Carnelian accent */
+:root {
+  --accent: #B31B1B;
+  --text: #111;
+  --muted: #555;
+  --bg: #fff;
+  --border: #e6e6e6;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+html { scroll-behavior: smooth; }
+
+a { color: var(--accent); }
+a:hover { text-decoration: underline; }
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 1.2rem;
+}
+
+.topnav {
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+}
+
+.nav-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0.8rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Brand styling: Carlo (black) Lombardo (carnelian) . (muted gray) */
+.brand {
+  font-weight: 750;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  font-size: 2.0rem;   /* <-- Controlls size of my name */
+  line-height: 1;
+}
+
+.brand-first { color: var(--text); }
+.brand-last  { color: var(--accent); }
+.brand-dot   { color: #6B6B6B; } 
+
+.intro {
+  display: grid;
+  grid-template-columns: 290px 1fr;
+  gap: 1.8rem;
+  align-items: start;
+
+  padding: 1.2rem 0 0.9rem 0;
+  border-bottom: 1px solid var(--border);
+  margin: 0 auto 0.85rem auto;
+
+  max-width: 860px; /* matches your container width */
+}
+
+.intro-photo { margin-top: 0.1rem; }
+
+.headshot {
+  width: 290px;
+  height: 290px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+
+.intro-text p {
+  margin: 0 0 0.9rem 0;
+  line-height: 1.55;
+}
+
+/* keep icons aligned with intro text */
+.social {
+  margin-top: 0.5rem;
+}
+
+/* Mobile: stack image on top */
+@media (max-width: 780px) {
+  .intro {
+    grid-template-columns: 1fr;
+  }
+  .headshot {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+/* Intro text links red, but NOT the icon links */
+.intro a:not(.icon-link) { color: var(--accent); }
+.intro a.icon-link,
+.intro a.icon-link:visited {
+  color: var(--text);
+}
+
+/* Make the links row sit nicely under intro */
+.links {
+  margin: 0.7rem 0 0.2rem 0;
+  color: var(--muted);
+}
+.links a { color: var(--accent); }
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  margin-left: 0.9rem;
+  font-size: 0.95rem;
+}
+.nav-links a:hover { color: var(--accent); }
+
+.links { margin: 0.2rem 0; }
+
+section {
+  padding: 1.3rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.paper { margin: 1rem 0; }
+.paper-title { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+.tag {
+  font-size: 0.78rem;
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+}
+.paper-meta { color: var(--muted); font-size: 0.95rem; margin-top: 0.2rem; }
+.paper-links { margin-top: 0.2rem; }
+.paper-abstract { margin-top: 0.4rem; color: var(--text); }
+
+.muted { color: var(--muted); }
+
+/* Publications citation line: make the journal bold softer */
+.paper-cite {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 0.15rem;
+}
+.paper-cite strong {
+  font-weight: 600;     /* softer than default bold */
+  color: var(--text);   /* journal readable, rest muted */
+}
+
+/* Icon links row (Scholar / GitHub / X) */
+.social {
+  margin-top: 0.9rem;
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+  justify-content: flex-start; /* ensure left alignment */
+}
+
+.icon-link {
+  display: inline-flex;
+  width: auto;
+  height: auto;
+  padding: 6px;
+  border-radius: 10px;
+  color: #111;
+  text-decoration: none;
+}
+
+.icon-link svg {
+  width: 40px;
+  height: 40px;
+  fill: currentColor;
+}
+
+.icon-link:hover {
+  background: rgba(0,0,0,0.04);
+}
+
+.nav-links a.active {
+  color: var(--text);     /* darker than muted */
+  font-weight: 600;
+}
+
+.nav-links a.active {
+  border-bottom: 2px solid rgba(0,0,0,0.25);  /* subtle underline */
+  padding-bottom: 2px;
+}
+
+/* Paper title links (Working papers + Publications) */
+.paper-title-link,
+.paper-title-link:visited {
+  color: var(--accent) !important;   /* override theme blue */
+  font-weight: 650;
+  text-decoration: none;
+}
+.paper-title-link:hover {
+  text-decoration: underline;
+}
+
+/* Coauthor links should look like muted text (not red) */
+.paper-meta a.coauthor,
+.paper-meta a.coauthor:visited {
+  color: var(--muted);
+  text-decoration: none;
+}
+.paper-meta a.coauthor:hover {
+  text-decoration: underline;
+  color: var(--muted);
+}
+
+/* Optional future status line */
+.paper-status {
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Coauthor links in grey (not accent red) */
+.paper-meta a.coauthor-link {
+  color: var(--muted);
+  text-decoration: none;
+}
+.paper-meta a.coauthor-link:hover {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+/* Bigger section titles (Working papers / Publications / etc.) */
+section > h2 {
+  font-size: 1.75rem;   /* try 2.0–2.4 */
+  line-height: 1.15;
+  margin: 0 0 0.9rem 0; /* space below the title */
+  font-weight: 600;
+}
+
+/* Optional: a little extra space above each section */
+section {
+  padding-top: 1.8rem;
+}
+
+/* Softer “bold” journal name */
+.journal {
+  font-weight: 600;                 /* semi-bold, not heavy bold */
+  color: #3a3a3a;    /* softer than pure black */
+}
