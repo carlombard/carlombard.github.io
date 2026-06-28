@@ -94,14 +94,80 @@ a:hover { text-decoration: underline; }
   margin-top: 0.5rem;
 }
 
-/* Mobile: stack image on top */
+/* Hamburger button – hidden on desktop */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+.hamburger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 1px;
+}
+
+/* Mobile name shown inside intro on small screens */
+.mobile-name {
+  display: none;
+  font-weight: 750;
+  font-size: 2.0rem;
+  line-height: 1;
+  letter-spacing: 0.3px;
+}
+
+/* Mobile: stack intro, show hamburger, dropdown menu */
 @media (max-width: 780px) {
-  .intro {
-    grid-template-columns: 1fr;
+  /* Hide brand name; right-align hamburger */
+  .brand { display: none; }
+  .nav-inner { justify-content: flex-end; }
+  .hamburger { display: flex; }
+
+  /* Dropdown: hidden by default, shown when .is-open */
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.98);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(6px);
+    flex-direction: column;
+    padding: 0.3rem 1.2rem 0.5rem;
+  }
+  .nav-links.is-open { display: flex; }
+  .nav-links a {
+    margin-left: 0;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 1rem;
+  }
+  .nav-links a:last-child { border-bottom: none; }
+
+  /* Intro: single column, name → photo → text */
+  .mobile-name { display: block; }
+  .intro { grid-template-columns: 1fr; }
+  .intro-photo {
+    display: flex;
+    justify-content: center;
   }
   .headshot {
-    width: 160px;
-    height: 160px;
+    width: min(100%, 360px);
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
   }
 }
 

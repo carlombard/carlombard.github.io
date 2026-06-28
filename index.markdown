@@ -7,6 +7,10 @@ title: Carlo Lombardo
 ---
 
 <div class="intro">
+  <div class="mobile-name">
+    <span class="brand-first">Carlo</span>
+    <span class="brand-last">Lombardo</span><span class="brand-dot">.</span>
+  </div>
   <div class="intro-photo">
     <img class="headshot"
          src="{{ '/assets/img/headshot.jpg' | relative_url }}"
