@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ page.title | default: site.title }}</title>
 
+    <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" sizes="16x16 32x32 48x48">
+    <link rel="icon" href="{{ '/assets/img/favicon.svg' | relative_url }}" type="image/svg+xml">
+    <link rel="icon" href="{{ '/assets/img/favicon-192.png' | relative_url }}" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="{{ '/assets/img/apple-touch-icon.png' | relative_url }}">
+    <link rel="manifest" href="{{ '/assets/img/site.webmanifest' | relative_url }}">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="color-scheme" content="only light">
+
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
   </head>
 
@@ -73,19 +81,41 @@
         links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + id));
       };
 
-      const obs = new IntersectionObserver((entries) => {
-        const visible = entries.filter(e => e.isIntersecting);
-        if (!visible.length) return;
-        visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        setActive(visible[0].target.id);
-      }, { rootMargin: "-40% 0px -55% 0px", threshold: [0.1, 0.2, 0.35, 0.5, 0.65] });
+      const nav = document.querySelector(".topnav");
+      let clickedId = null, clickTimer = null;
 
-      targets.forEach(t => obs.observe(t));
+      const update = () => {
+        if (!targets.length || clickedId) return;
+        const doc = document.documentElement;
+        const navH = nav ? nav.offsetHeight : 0;
+        const vh = window.innerHeight;
+        const maxScroll = doc.scrollHeight - vh;
+        const remaining = Math.max(0, maxScroll - window.scrollY);
+        const stretch = Math.min(vh * 0.6, maxScroll);
+        const t = maxScroll > 2 ? Math.min(1, Math.max(0, 1 - remaining / stretch)) : 0;
+        const line = navH + (vh - navH) * (0.25 + 0.75 * t) - 2;
+        let current = null;
+        targets.forEach(s => { if (s.getBoundingClientRect().top <= line) current = s; });
+        if (current) setActive(current.id);
+        else links.forEach(a => a.classList.remove("active"));
+      };
 
       links.forEach(a => a.addEventListener("click", () => {
-        const id = a.getAttribute("href").slice(1);
-        setActive(id);
+        clickedId = a.getAttribute("href").slice(1);
+        setActive(clickedId);
+        clearTimeout(clickTimer);
+        clickTimer = setTimeout(() => { clickedId = null; }, 1200);
       }));
+      window.addEventListener("scrollend", () => {
+        if (clickedId) { clearTimeout(clickTimer); clickTimer = setTimeout(() => { clickedId = null; }, 150); }
+      });
+      ["wheel", "touchstart", "keydown"].forEach(ev =>
+        window.addEventListener(ev, () => { if (clickedId) { clickedId = null; update(); } }, { passive: true }));
+
+      window.addEventListener("scroll", update, { passive: true });
+      window.addEventListener("resize", update);
+      document.addEventListener("toggle", update, true);
+      update();
     });
     </script>
     

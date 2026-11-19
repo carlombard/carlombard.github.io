@@ -10,6 +10,10 @@
   --muted: #555;
   --bg: #fff;
   --border: #e6e6e6;
+  --muted-strong: #56534c;
+  --abstract-text: #666;
+  --abstract-rule: #dedede;
+  color-scheme: only light;
 }
 
 body {
@@ -58,6 +62,10 @@ a:hover { text-decoration: underline; }
   letter-spacing: 0.3px;
   font-size: 2.0rem;   /* <-- Controlls size of my name */
   line-height: 1;
+  white-space: nowrap;
+}
+@media (max-width: 359px) {
+  .brand { font-size: 1.65rem; }
 }
 
 .brand-first { color: var(--text); }
@@ -92,11 +100,6 @@ a:hover { text-decoration: underline; }
   line-height: 1.55;
 }
 
-/* keep icons aligned with intro text */
-.social {
-  margin-top: 0.5rem;
-}
-
 /* Hamburger button – hidden on desktop */
 .hamburger {
   display: none;
@@ -121,20 +124,8 @@ a:hover { text-decoration: underline; }
   border-radius: 1px;
 }
 
-/* Mobile name shown inside intro on small screens */
-.mobile-name {
-  display: none;
-  font-weight: 750;
-  font-size: 2.0rem;
-  line-height: 1;
-  letter-spacing: 0.3px;
-}
-
 /* Mobile: stack intro, show hamburger, dropdown menu */
 @media (max-width: 780px) {
-  /* Hide brand name; right-align hamburger */
-  .brand { display: none; }
-  .nav-inner { justify-content: flex-end; }
   .hamburger { display: flex; }
 
   /* Dropdown: hidden by default, shown when .is-open */
@@ -160,11 +151,11 @@ a:hover { text-decoration: underline; }
   .nav-links a:last-child { border-bottom: none; }
 
   /* Intro: single column, name → photo → text */
-  .mobile-name { display: block; }
   .intro { grid-template-columns: 1fr; }
   .intro-photo {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
   .headshot {
     width: min(100%, 360px);
@@ -178,15 +169,12 @@ a:hover { text-decoration: underline; }
 .intro a:not(.icon-link) { color: var(--accent); }
 .intro a.icon-link,
 .intro a.icon-link:visited {
-  color: var(--text);
-}
-
-/* Make the links row sit nicely under intro */
-.links {
-  margin: 0.7rem 0 0.2rem 0;
   color: var(--muted);
 }
-.links a { color: var(--accent); }
+.intro a.icon-link:hover,
+.intro a.icon-link:focus-visible {
+  color: var(--accent);
+}
 
 .nav-links a {
   color: var(--muted);
@@ -196,27 +184,14 @@ a:hover { text-decoration: underline; }
 }
 .nav-links a:hover { color: var(--accent); }
 
-.links { margin: 0.2rem 0; }
-
 section {
-  padding: 1.3rem 0;
+  padding: 1.8rem 0 1.3rem;
   border-bottom: 1px solid var(--border);
 }
 
 .paper { margin: 1rem 0; }
-.paper-title { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
-.tag {
-  font-size: 0.78rem;
-  padding: 0.15rem 0.45rem;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  color: var(--muted);
-}
+.paper-title { display: flex; align-items: baseline; gap: 0.15rem 0.6rem; flex-wrap: wrap; }
 .paper-meta { color: var(--muted); font-size: 0.95rem; margin-top: 0.2rem; }
-.paper-links { margin-top: 0.2rem; }
-.paper-abstract { margin-top: 0.4rem; color: var(--text); }
-
-.muted { color: var(--muted); }
 
 /* Publications citation line: make the journal bold softer */
 .paper-cite {
@@ -224,46 +199,44 @@ section {
   font-size: 0.95rem;
   margin-top: 0.15rem;
 }
-.paper-cite strong {
-  font-weight: 600;     /* softer than default bold */
-  color: var(--text);   /* journal readable, rest muted */
-}
 
 /* Icon links row (Scholar / GitHub / X) */
 .social {
-  margin-top: 0.9rem;
+  margin-top: 0.6rem;
   display: flex;
-  gap: 0.9rem;
+  gap: 0.6rem;
   align-items: center;
-  justify-content: flex-start; /* ensure left alignment */
+  justify-content: center;
 }
 
 .icon-link {
   display: inline-flex;
-  width: auto;
-  height: auto;
-  padding: 6px;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   border-radius: 10px;
-  color: #111;
   text-decoration: none;
+  transition: color 0.15s ease, background-color 0.15s ease;
 }
-
 .icon-link svg {
-  width: 40px;
-  height: 40px;
+  width: 26px;
+  height: 26px;
   fill: currentColor;
+}
+.icon-scholar svg {
+  width: 31px;
+  height: 31px;
 }
 
 .icon-link:hover {
   background: rgba(0,0,0,0.04);
+  text-decoration: none;
 }
 
 .nav-links a.active {
   color: var(--text);     /* darker than muted */
   font-weight: 600;
-}
-
-.nav-links a.active {
   border-bottom: 2px solid rgba(0,0,0,0.25);  /* subtle underline */
   padding-bottom: 2px;
 }
@@ -277,17 +250,6 @@ section {
 }
 .paper-title-link:hover {
   text-decoration: underline;
-}
-
-/* Coauthor links should look like muted text (not red) */
-.paper-meta a.coauthor,
-.paper-meta a.coauthor:visited {
-  color: var(--muted);
-  text-decoration: none;
-}
-.paper-meta a.coauthor:hover {
-  text-decoration: underline;
-  color: var(--muted);
 }
 
 /* Optional future status line */
@@ -315,13 +277,72 @@ section > h2 {
   font-weight: 600;
 }
 
-/* Optional: a little extra space above each section */
-section {
-  padding-top: 1.8rem;
-}
-
 /* Softer “bold” journal name */
 .journal {
   font-weight: 600;                 /* semi-bold, not heavy bold */
   color: #3a3a3a;    /* softer than pure black */
+}
+
+.paper-title-text {
+  color: var(--accent);
+  font-weight: 650;
+}
+.draft-note {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+.abstract {
+  margin-top: 0.2rem;
+}
+.abstract > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0;
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted-strong);
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.abstract > summary::-webkit-details-marker { display: none; }
+.abstract > summary::before {
+  content: "";
+  width: 0.36rem;
+  height: 0.36rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+}
+.abstract[open] > summary::before { transform: rotate(45deg); }
+.abstract > summary:hover { color: var(--accent); }
+.abstract > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.abstract > p {
+  margin: 0.35rem 0 0.4rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--abstract-rule);
+  text-align: left;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--abstract-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .abstract > summary::before { transition: none; }
+}
+
+a, button {
+  -webkit-tap-highlight-color: rgba(179, 27, 27, 0.12);
 }
